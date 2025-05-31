@@ -22,6 +22,7 @@
     "typeorm:generate": "npm run build && npm run typeorm migration:generate -- -d dist/database/data-source.js",
     "typeorm:migrate": "npm run typeorm migration:run -- -d dist/database/data-source.js",
     "typeorm:revert": "npm run typeorm migration:revert -- -d dist/database/data-source.js",
+    "typeorm:drop": "npm run typeorm schema:drop -- -d dist/database/data-source.js",
     "seed": "ts-node -r tsconfig-paths/register src/database/seed.ts"
   },
   "dependencies": {
