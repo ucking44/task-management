@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: task-management-api
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - tms-network
+
+  postgres:
+    image: postgres:15
+    container_name: tms-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: taskdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - tms-network
+
+  redis:
+    image: redis:7
+    container_name: tms-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - tms-network
+
+volumes:
+  pgdata:
+
+networks:
+  tms-network:
+    driver: bridge
